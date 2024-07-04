@@ -24,7 +24,21 @@ context('Calc', () => {
     cy.screenshot()
   })
 
-  it.skip('can click multiply', () => {
+  it('can click substract (using fixture)', () => {
+    cy.fixture('result8.txt').as('result')
+    cy.server()
+    cy.route('GET', 'calc/substract/4/-4', '@result').as('getResult')
+    cy.get('#in-op1').clear().type('4')
+    cy.get('#in-op2').clear().type('-4')
+    cy.get('#button-substract').click()
+    cy.wait('@getResult')
+    cy.get('#result-area').should('have.text', "Result: 8")
+    cy.screenshot()
+  })
+
+  it('can click multiply', () => {
+    cy.server()
+    cy.route('GET', 'calc/multiply/2/3', '6')
     cy.get('#in-op1').clear().type('2')
     cy.get('#in-op2').clear().type('3')
     cy.get('#button-multiply').click()
@@ -32,20 +46,16 @@ context('Calc', () => {
     cy.screenshot()
   })
 
-  it('can click substract (using fixture)', () => {
-    cy.fixture('result8.txt').as('result')
+  it('can click divide (using stub)', () => {
     cy.server()
-    cy.route('GET', 'calc/substract/4/-4', '@result').as('getResult')
-
-    cy.get('#in-op1').clear().type('4')
-    cy.get('#in-op2').clear().type('-4')
-    cy.get('#button-substract').click()
-
-    cy.wait('@getResult')
-
-    cy.get('#result-area').should('have.text', "Result: 8")
+    cy.route('GET', 'calc/divide/6/2', '3')
+    cy.get('#in-op1').clear().type('6')
+    cy.get('#in-op2').clear().type('2')
+    cy.get('#button-divide').click()
+    cy.get('#result-area').should('have.text', "Result: 3")
     cy.screenshot()
   })
+    
 
   it('increases the history log', () => {
     cy.get('#button-add').click().click().click()

@@ -9,7 +9,6 @@ def convert_to_number(operand):
     except ValueError:
         raise TypeError("Operator cannot be converted to number")
 
-
 def InvalidConvertToNumber(operand):
     try:
         if "." in operand:

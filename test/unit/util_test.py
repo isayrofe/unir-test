@@ -22,3 +22,8 @@ class TestUtil(unittest.TestCase):
         self.assertRaises(TypeError, util.convert_to_number, "s")
         self.assertRaises(TypeError, util.convert_to_number, None)
         self.assertRaises(TypeError, util.convert_to_number, object())
+    
+    def test_check_types_not_numbers(self):
+        self.assertRaises(TypeError, self.calc.check_types, "isay", 2)
+        self.assertRaises(TypeError, self.calc.check_types, 1, "isay")
+
